@@ -1,6 +1,7 @@
 package co.babylone.pokedex
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -23,14 +24,10 @@ class MainActivity : AppCompatActivity() {
                     putString("username", username)
                     apply()
                 }
-                switchToMainActivity()
+                startActivity(Intent(this, HomeActivity::class.java))
             } else {
                 Snackbar.make(findViewById(R.id.username), "Veuillez entrer un pseudonyme", Snackbar.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun switchToMainActivity() {
-        setContentView(R.layout.activity_main)
     }
 }
