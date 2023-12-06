@@ -14,7 +14,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.login_screen)
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
 
-
         val loginButton = findViewById<Button>(R.id.login_button)
         loginButton.setOnClickListener {
             val username = findViewById<EditText>(R.id.username).text.toString()
@@ -24,10 +23,14 @@ class MainActivity : AppCompatActivity() {
                     putString("username", username)
                     apply()
                 }
+                switchToMainActivity()
             } else {
                 Snackbar.make(findViewById(R.id.username), "Veuillez entrer un pseudonyme", Snackbar.LENGTH_SHORT).show()
             }
         }
+    }
 
+    private fun switchToMainActivity() {
+        setContentView(R.layout.activity_main)
     }
 }
