@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 suspend fun main(context: Context) {
     val pokeapi = Pokeapi()
     val pokemonList = pokeapi.getPokedex()
+    pokeapi.saveInCache(context)
 
     for (pokemon in pokemonList) {
         println("Name: ${pokemon.name}, ID: ${pokemon.id}, Image: ${pokemon.image} Shiny: ${pokemon.shiny}")
@@ -50,6 +51,12 @@ suspend fun main(context: Context) {
     val favoritePokemon = pokeapi.getFavoritePokemon(context)
     println("Favorite Pokemon:")
     for (pokemon in favoritePokemon) {
+        println("Name: ${pokemon.name}, ID: ${pokemon.id}, Image: ${pokemon.image} Shiny: ${pokemon.shiny}")
+    }
+
+    println("Pokemon from cache:")
+    pokeapi.getFromCache(context)
+    for (pokemon in pokeapi.pokemons) {
         println("Name: ${pokemon.name}, ID: ${pokemon.id}, Image: ${pokemon.image} Shiny: ${pokemon.shiny}")
     }
 }

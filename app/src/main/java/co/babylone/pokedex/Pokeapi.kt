@@ -50,6 +50,29 @@ class Pokeapi () {
         pokemons // Return the list of Pokemon
     }
 
+    fun saveInCache(context: Context) {
+        val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putString("pokemons", pokemons.toString())
+        editor.apply()
+    }
+
+    fun getFromCache(context: Context) {
+        val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
+        val pokemonsString = sharedPref.getString("pokemons", "")
+
+        if (!pokemonsString.isNullOrEmpty()) {
+            val pattern = Regex("Pokemon\\(name=(\\w+), id=(\\d+), image=(.*?), shiny=(.*?)\\)")
+            val matches = pattern.findAll(pokemonsString)
+
+            val parsedPokemons = matches.map { matchResult ->
+                val (name, id, image, shiny) = matchResult.destructured
+                Pokemon(name, id.toInt(), image, shiny)
+            }.toList()
+            pokemons = ArrayList(parsedPokemons)
+        }
+    }
+
     fun getFavoritePokemon(context: Context): List<Pokemon> {
         val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val favoritePokemon = sharedPref.getStringSet("favoritePokemon", setOf())
@@ -89,6 +112,10 @@ class Pokemon(val name: String, var id: Int?, val image: String?, val shiny: Str
             putStringSet("favoritePokemon", newFavoritePokemon)
             apply()
         }
+    }
+
+    override fun toString(): String {
+        return "Pokemon(name=$name, id=$id, image=$image, shiny=$shiny)"
     }
 
 }
