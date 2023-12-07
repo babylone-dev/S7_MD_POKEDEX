@@ -1,16 +1,72 @@
-package co.babylone.pokedex
+import android.content.Context
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
-class Pokeapi {
+class Pokeapi () {
+    var pokemons = ArrayList<Pokemon>()
+    var client: OkHttpClient = OkHttpClient()
+
     companion object {
         const val BASE_URL = "https://pokeapi.co/api/v2/"
     }
 
-    fun getPokedex() {
+    suspend fun getPokedex(): List<Pokemon> = withContext(Dispatchers.IO) {
         val url = "${BASE_URL}pokemon?limit=151"
+        val request = Request.Builder().url(url).build()
 
+        val response = suspendCoroutine<Response> { continuation ->
+            client.newCall(request).enqueue(object : Callback {
+                override fun onResponse(call: Call, response: Response) {
+                    continuation.resume(response)
+                }
+
+                override fun onFailure(call: Call, e: IOException) {
+                    continuation.resumeWithException(e)
+                }
+            })
+        }
+
+        val body = response.body()?.string()
+        val json = body?.let { JSONObject(it) }
+        val results = json?.getJSONArray("results")
+        if (results != null) {
+            for (i in 0 until results.length()) {
+                val pokemon = results.getJSONObject(i)
+                val name = pokemon.getString("name")
+                val url = pokemon.getString("url")
+                val id = url.split("/")[6].toInt()
+                val image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png"
+                val shiny = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/$id.png"
+                pokemons.add(Pokemon(name, id, image, shiny))
+            }
+        }
+
+        pokemons // Return the list of Pokemon
     }
+
+    fun addCustomPokemon(pokemon: Pokemon) {
+        pokemon.id = pokemons.size + 1
+        pokemons.add(pokemon)
+    }
+
 }
 
-class Pokemon(val name: String, val id: Int, val image: String) {
+class Pokemon(val name: String, var id: Int?, val image: String?, val shiny: String?) {
+    fun addToFavorite() {
+    }
+
+    fun removeFromFavorite() {
+    }
 
 }
+
+
+
+
+
