@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_screen)
         CoroutineScope(Dispatchers.Main).launch {
-            main()
+            main(context = this@MainActivity)
         }
         val sharedPref = this.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val loginButton = findViewById<Button>(R.id.login_button)
@@ -35,11 +35,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-suspend fun main() {
+suspend fun main(context: Context) {
     val pokeapi = Pokeapi()
     val pokemonList = pokeapi.getPokedex()
 
     for (pokemon in pokemonList) {
+        println("Name: ${pokemon.name}, ID: ${pokemon.id}, Image: ${pokemon.image} Shiny: ${pokemon.shiny}")
+    }
+
+    pokemonList[0].addToFavorite(context)
+    pokemonList[3].addToFavorite(context)
+    pokemonList[6].addToFavorite(context)
+
+    val favoritePokemon = pokeapi.getFavoritePokemon(context)
+    println("Favorite Pokemon:")
+    for (pokemon in favoritePokemon) {
         println("Name: ${pokemon.name}, ID: ${pokemon.id}, Image: ${pokemon.image} Shiny: ${pokemon.shiny}")
     }
 }

@@ -50,6 +50,17 @@ class Pokeapi () {
         pokemons // Return the list of Pokemon
     }
 
+    fun getFavoritePokemon(context: Context): List<Pokemon> {
+        val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
+        val favoritePokemon = sharedPref.getStringSet("favoritePokemon", setOf())
+        val favoritePokemonList = ArrayList<Pokemon>()
+        for (pokemon in pokemons) {
+            if (favoritePokemon?.contains(pokemon.id.toString()) == true) {
+                favoritePokemonList.add(pokemon)
+            }
+        }
+        return favoritePokemonList
+    }
     fun addCustomPokemon(pokemon: Pokemon) {
         pokemon.id = pokemons.size + 1
         pokemons.add(pokemon)
@@ -58,10 +69,26 @@ class Pokeapi () {
 }
 
 class Pokemon(val name: String, var id: Int?, val image: String?, val shiny: String?) {
-    fun addToFavorite() {
+    fun addToFavorite(context: Context) {
+        val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
+        val favoritePokemon = sharedPref.getStringSet("favoritePokemon", setOf())
+        val newFavoritePokemon = favoritePokemon?.toMutableSet()
+        newFavoritePokemon?.add(id.toString())
+        with (sharedPref.edit()) {
+            putStringSet("favoritePokemon", newFavoritePokemon)
+            apply()
+        }
     }
 
-    fun removeFromFavorite() {
+    fun removeFromFavorite(context: Context) {
+        val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
+        val favoritePokemon = sharedPref.getStringSet("favoritePokemon", setOf())
+        val newFavoritePokemon = favoritePokemon?.toMutableSet()
+        newFavoritePokemon?.remove(id.toString())
+        with (sharedPref.edit()) {
+            putStringSet("favoritePokemon", newFavoritePokemon)
+            apply()
+        }
     }
 
 }
