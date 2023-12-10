@@ -1,11 +1,17 @@
 package co.babylone.pokedex
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import co.babylone.pokedex.databinding.FragmentPokedexBinding
+import co.babylone.pokedex.databinding.HomeScreenBinding
 import com.google.android.material.snackbar.Snackbar
 
 class HomeActivity : AppCompatActivity() {
+    //tuto que j'ai check https://www.youtube.com/watch?v=h-NcxT697Nk
+    lateinit var binding : HomeScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_screen)
@@ -18,5 +24,23 @@ class HomeActivity : AppCompatActivity() {
 
 
         Snackbar.make(findViewById(R.id.display_username), "Bienvenue $username", Snackbar.LENGTH_SHORT).show()
+
+       binding = HomeScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.btnMonPokedex.setOnClickListener{
+            replaceFragment(FragmentPokedex())
+        }
+        binding.btnMonEquipe.setOnClickListener{
+            replaceFragment(FragmentMonEquipe())
+        }
+
     }
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.flFragment, fragment)
+        fragmentTransaction.commit()
+    }
+
 }
