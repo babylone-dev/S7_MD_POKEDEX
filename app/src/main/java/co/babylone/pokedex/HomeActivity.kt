@@ -11,40 +11,42 @@ import com.google.android.material.snackbar.Snackbar
 
 
 class HomeActivity : AppCompatActivity() {
-    //tuto que j'ai check https://www.youtube.com/watch?v=h-NcxT697Nk
     lateinit var binding: HomeScreenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.home_screen)
-
-        val sharedPref = this.getSharedPreferences("co.babylone.pokedex", MODE_PRIVATE)
-        val username = sharedPref.getString("username", "")
-
-        val displayUsernameTextView = findViewById<TextView>(R.id.display_username)
-        displayUsernameTextView.text = username
-
-
-        Snackbar.make(findViewById(R.id.display_username), "Bienvenue $username", Snackbar.LENGTH_SHORT).show()
 
         binding = HomeScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val btnMonPokedex = binding.bottomNavigationView.findViewById<Button>(R.id.btnMonPokedex)
+        val sharedPref = this.getSharedPreferences("co.babylone.pokedex", MODE_PRIVATE)
+        val username = sharedPref.getString("username", "")
 
-        // Set the onClickListener for the button
-        btnMonPokedex.setOnClickListener {
-        replaceFragment(FragmentPokedex())
+        val displayUsernameTextView = binding.displayUsername
+        displayUsernameTextView.text = username
+        Snackbar.make(displayUsernameTextView, "Bienvenue $username", Snackbar.LENGTH_SHORT).show()
+
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.menuMonPokedex -> {
+                    replaceFragment(FragmentPokedex())
+                    true
+                }
+                R.id.menuMonEquipe -> {
+                    replaceFragment(FragmentMonEquipe())
+                    true
+                }
+                else -> false
+            }
         }
 
-        val btnMonEquipe = binding.bottomNavigationView.findViewById<Button>(R.id.btnMonEquipe)
-
-        btnMonEquipe.setOnClickListener {
-            replaceFragment(FragmentMonEquipe())
-
+        // Open FragmentPokedex when HomeActivity is first created
+        if (savedInstanceState == null) {
+            replaceFragment(FragmentPokedex())
+            binding.bottomNavigationView.selectedItemId = R.id.menuMonPokedex
         }
-
-
     }
+
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()

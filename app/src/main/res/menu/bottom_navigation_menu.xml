@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+<item
+        android:id="@+id/menuMonPokedex"
         android:icon="@android:drawable/ic_menu_compass"
-        android:id="@+id/btnMonPokedex"
         android:title="Mon pokédex" />
-    <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+<item
+        android:id="@+id/menuMonEquipe"
         android:icon="@android:drawable/btn_star"
-        android:id="@+id/btnMonEquipe"
         android:title="Mon équipe" />
 </menu>
