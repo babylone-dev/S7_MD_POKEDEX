@@ -1,10 +1,12 @@
 package co.babylone.pokedex
 
 import Pokeapi
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.inputmethod.InputBinding
 import android.widget.Button
 import android.widget.EditText
 import com.google.android.material.snackbar.Snackbar
@@ -13,6 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_screen)
@@ -33,6 +37,9 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(findViewById(R.id.username), "Veuillez entrer un pseudonyme", Snackbar.LENGTH_SHORT).show()
             }
         }
+
+
+
     }
 }
 suspend fun main(context: Context) {
