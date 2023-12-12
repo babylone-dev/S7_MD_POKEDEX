@@ -1,0 +1,58 @@
+<!-- pokemon_tile.xml -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+    <!-- Pokemon Image -->
+    <ImageView
+            android:id="@+id/imagePokemon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="16dp"/>
+
+    <!-- Pokemon Name -->
+    <TextView
+            android:id="@+id/textPokemonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bulbasaur"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_toEndOf="@id/imagePokemon"/>
+
+    <!-- Pokemon ID -->
+    <TextView
+            android:id="@+id/textPokemonId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#001"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_below="@id/textPokemonName"
+            android:layout_toEndOf="@id/imagePokemon"/>
+
+    <!-- Toggle Button for Shiny Pokémon -->
+    <ToggleButton
+            android:id="@+id/toggleShiny"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="Shiny"
+            android:textOff="Normal"
+            android:checked="false"
+            android:layout_below="@id/textPokemonId"
+            android:layout_toEndOf="@id/imagePokemon"
+            android:layout_alignBottom="@id/imagePokemon"/>
+
+    <!-- Star Button for Favorite -->
+    <Button
+            android:id="@+id/btnFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="☆"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"/>
+</RelativeLayout>
