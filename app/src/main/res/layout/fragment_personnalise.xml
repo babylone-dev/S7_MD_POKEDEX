@@ -63,6 +63,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"/>
+    <Button
+            android:id="@+id/buttonSendData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ajouter le Pokémon à l'équipe"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/editTextURL"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="onSendDataClicked"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
