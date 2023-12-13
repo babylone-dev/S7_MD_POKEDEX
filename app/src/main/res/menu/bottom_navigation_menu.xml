@@ -8,4 +8,8 @@
         android:id="@+id/menuMonEquipe"
         android:icon="@android:drawable/btn_star"
         android:title="Mon équipe" />
+<item
+        android:id="@+id/personnalise"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="Personnalisé" />
 </menu>
