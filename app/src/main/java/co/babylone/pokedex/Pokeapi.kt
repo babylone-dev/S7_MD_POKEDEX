@@ -91,7 +91,7 @@ class Pokeapi () {
 
 }
 
-class Pokemon(val name: String, var id: Int?, val image: String?, val shiny: String?) {
+class Pokemon(val name: String, var id: Int?, val image: String?, val shiny: String?, var isShiny: Boolean = false) {
     fun addToFavorite(context: Context) {
         val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val favoritePokemon = sharedPref.getStringSet("favoritePokemon", setOf())
@@ -116,6 +116,10 @@ class Pokemon(val name: String, var id: Int?, val image: String?, val shiny: Str
 
     override fun toString(): String {
         return "Pokemon(name=$name, id=$id, image=$image, shiny=$shiny)"
+    }
+
+    fun toggleShiny(){
+        isShiny = !isShiny
     }
 
 }
