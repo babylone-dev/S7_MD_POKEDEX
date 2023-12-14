@@ -36,6 +36,11 @@ class HomeActivity : AppCompatActivity() {
                     replaceFragment(FragmentMonEquipe())
                     true
                 }
+                R.id.personnalise ->
+                {
+                    replaceFragment(FragmentPersonnalise())
+                    true
+                }
                 else -> false
             }
         }
