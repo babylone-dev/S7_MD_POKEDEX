@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.inputmethod.InputBinding
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +32,6 @@ class MainActivity : AppCompatActivity() {
                     putString("username", username)
                     apply()
                 }
-                findViewById<TextView>(R.id.textViewEquipeTitle).text = "$username's team"
                 startActivity(Intent(this, HomeActivity::class.java))
             } else {
                 Snackbar.make(findViewById(R.id.username), "Veuillez entrer un pseudonyme", Snackbar.LENGTH_SHORT).show()
