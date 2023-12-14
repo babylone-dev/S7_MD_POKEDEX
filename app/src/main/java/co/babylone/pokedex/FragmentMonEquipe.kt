@@ -24,7 +24,7 @@ class FragmentMonEquipe : Fragment(R.layout.fragment_mon_equipe) {
         super.onViewCreated(view, savedInstanceState)
         val sharedPref = view.context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val username = sharedPref.getString("username", "")
-        view.findViewById<TextView>(R.id.textViewEquipeTitle).text = username
+        view.findViewById<TextView>(R.id.textViewEquipeTitle).text = "Équipe de $username"
 
         recyclerView = view.findViewById(R.id.recyclerViewMonEquipe)
         recyclerView.layoutManager = LinearLayoutManager(context)
