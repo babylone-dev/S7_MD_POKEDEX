@@ -99,27 +99,37 @@ class Pokeapi (val context: Context) {
 
     private fun getCustomPokemon(): MutableList<Pokemon> {
         val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
-        val customPokemon = sharedPref.getStringSet("customPokemon", setOf())
-        val customPokemonList = ArrayList<Pokemon>()
-        for (pokemon in pokemons) {
-            if (customPokemon?.contains(pokemon.id.toString()) == true) {
-                customPokemonList.add(pokemon)
+        val pokemonsString = sharedPref.getString("customPokemon", "")
+
+        val pokemons = mutableListOf<Pokemon>()
+
+        if (!pokemonsString.isNullOrEmpty()) {
+            val pattern = Regex("Pokemon\\(name=(\\w+), id=(\\d+), image=(.?), shiny=(.?)\\)")
+            val matches = pattern.findAll(pokemonsString)
+
+            for (matchResult in matches) {
+                val name = matchResult.groupValues[1]
+                val id = matchResult.groupValues[2].toInt()
+                val image = matchResult.groupValues[3].takeIf { it.isNotBlank() && it != "null" }
+                val shiny = matchResult.groupValues[4].takeIf { it.isNotBlank() && it != "null" }
+
+                val pokemon = Pokemon(name, id, image, shiny)
+                pokemons.add(pokemon)
             }
         }
-        return customPokemonList
+        return pokemons
     }
+
 
     fun addCustomPokemon(pokemon: Pokemon) {
         pokemon.id = pokemons.size + 1
+        val customPokemons = getCustomPokemon()
+        customPokemons.add(pokemon)
+
         val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
-        val customPokemon = sharedPref.getStringSet("customPokemon", setOf())
-        val newCustomPokemon = customPokemon?.toMutableSet()
-        newCustomPokemon?.add(pokemon.id.toString())
-        with (sharedPref.edit()) {
-            putStringSet("customPokemon", newCustomPokemon)
-            apply()
-            commit()
-        }
+        val editor = sharedPref.edit()
+        editor.putString("customPokemon", customPokemons.toString())
+        editor.apply()
     }
 
 }
