@@ -104,7 +104,7 @@ class Pokeapi (val context: Context) {
         val pokemons = mutableListOf<Pokemon>()
 
         if (!pokemonsString.isNullOrEmpty()) {
-            val pattern = Regex("Pokemon\\(name=(\\w+), id=(\\d+), image=(.?), shiny=(.?)\\)")
+            val pattern = Regex("Pokemon\\(name=(\\w+), id=(\\d+), image=([^,]+), shiny=([^,]+)\\)")
             val matches = pattern.findAll(pokemonsString)
 
             for (matchResult in matches) {
@@ -119,8 +119,6 @@ class Pokeapi (val context: Context) {
         }
         return pokemons
     }
-
-
     fun addCustomPokemon(pokemon: Pokemon) {
         pokemon.id = pokemons.size + 1
         val customPokemons = getCustomPokemon()
