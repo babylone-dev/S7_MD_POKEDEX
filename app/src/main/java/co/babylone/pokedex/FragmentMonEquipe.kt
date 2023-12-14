@@ -26,9 +26,9 @@ class FragmentMonEquipe : Fragment(R.layout.fragment_mon_equipe) {
         recyclerView.setHasFixedSize(true)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val pokeapi = Pokeapi()
+            val pokeapi = Pokeapi(view.context)
             pokeapi.getPokedex()
-            val pokemonList = pokeapi.getFavoritePokemon(view.context)
+            val pokemonList = pokeapi.getFavoritePokemon()
 
             withContext(Dispatchers.Main) {
                 pokemonAdapter = PokemonAdapter(pokemonList, false)

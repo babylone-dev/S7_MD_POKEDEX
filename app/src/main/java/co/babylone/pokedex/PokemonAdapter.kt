@@ -24,7 +24,7 @@ class PokemonAdapter(private val pokemonList: MutableList<Pokemon>, val isPokede
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
         val currentItem = pokemonList[position]
-        holder.bind(currentItem, holder.itemView.context)
+        holder.bind(currentItem)
     }
 
     override fun getItemCount() = pokemonList.size
@@ -35,6 +35,7 @@ class PokemonAdapter(private val pokemonList: MutableList<Pokemon>, val isPokede
         private val textPokemonId: TextView = itemView.findViewById(R.id.textPokemonId)
         private val toggleShinyButton: ToggleButton = itemView.findViewById(R.id.toggleShiny)
         private val addToFavorite: ToggleButton = itemView.findViewById(R.id.btnFavorite)
+        val pokeapi = Pokeapi(context)
 
         init {
             toggleShinyButton.setOnClickListener {
@@ -52,8 +53,7 @@ class PokemonAdapter(private val pokemonList: MutableList<Pokemon>, val isPokede
 
             addToFavorite.setOnClickListener {
                 val currentItem = pokemonList[adapterPosition]
-                val pokeapi = Pokeapi()
-                val favoritePokemonIds = pokeapi.getFavoritePokemonIds(context)
+                val favoritePokemonIds = pokeapi.getFavoritePokemonIds()
                 if (!favoritePokemonIds.contains(currentItem.id)) {
                     currentItem.addToFavorite(context)
                 } else {
@@ -68,7 +68,7 @@ class PokemonAdapter(private val pokemonList: MutableList<Pokemon>, val isPokede
             }
         }
 
-        fun bind(pokemon: Pokemon, context: Context) {
+        fun bind(pokemon: Pokemon) {
             textViewName.text = pokemon.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
             textPokemonId.text = "#${pokemon.id.toString().padStart(3, '0')}"
             if (pokemon.isShiny) {
@@ -76,8 +76,7 @@ class PokemonAdapter(private val pokemonList: MutableList<Pokemon>, val isPokede
             } else {
                 Picasso.get().load(pokemon.image).into(imageView)
             }
-            val pokeapi = Pokeapi()
-            val favoritePokemonIds = pokeapi.getFavoritePokemonIds(context)
+            val favoritePokemonIds = pokeapi.getFavoritePokemonIds()
             addToFavorite.isChecked = favoritePokemonIds.contains(pokemon.id)
             toggleShinyButton.isChecked = pokemon.isShiny
         }

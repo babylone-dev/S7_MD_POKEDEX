@@ -8,7 +8,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class Pokeapi () {
+class Pokeapi (val context: Context) {
     var pokemons = ArrayList<Pokemon>()
     var client: OkHttpClient = OkHttpClient()
 
@@ -46,18 +46,19 @@ class Pokeapi () {
                 pokemons.add(Pokemon(name, id, image, shiny))
             }
         }
-
+        val customPokemon = getCustomPokemon()
+        pokemons.addAll(customPokemon)
         pokemons // Return the list of Pokemon
     }
 
-    fun saveInCache(context: Context) {
+    fun saveInCache() {
         val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
         editor.putString("pokemons", pokemons.toString())
         editor.apply()
     }
 
-    fun getFromCache(context: Context) {
+    fun getFromCache() {
         val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val pokemonsString = sharedPref.getString("pokemons", "")
 
@@ -73,7 +74,7 @@ class Pokeapi () {
         }
     }
 
-    fun getFavoritePokemon(context: Context): MutableList<Pokemon> {
+    fun getFavoritePokemon(): MutableList<Pokemon> {
         val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val favoritePokemon = sharedPref.getStringSet("favoritePokemon", setOf())
         val favoritePokemonList = ArrayList<Pokemon>()
@@ -85,7 +86,7 @@ class Pokeapi () {
         return favoritePokemonList
     }
 
-    fun getFavoritePokemonIds(context: Context): List<Int> {
+    fun getFavoritePokemonIds(): List<Int> {
         val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val favoritePokemon = sharedPref.getStringSet("favoritePokemon", setOf())
         val favoritePokemonList = ArrayList<Int>()
@@ -96,9 +97,29 @@ class Pokeapi () {
         return favoritePokemonList
     }
 
+    private fun getCustomPokemon(): MutableList<Pokemon> {
+        val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
+        val customPokemon = sharedPref.getStringSet("customPokemon", setOf())
+        val customPokemonList = ArrayList<Pokemon>()
+        for (pokemon in pokemons) {
+            if (customPokemon?.contains(pokemon.id.toString()) == true) {
+                customPokemonList.add(pokemon)
+            }
+        }
+        return customPokemonList
+    }
+
     fun addCustomPokemon(pokemon: Pokemon) {
         pokemon.id = pokemons.size + 1
-        pokemons.add(pokemon)
+        val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
+        val customPokemon = sharedPref.getStringSet("customPokemon", setOf())
+        val newCustomPokemon = customPokemon?.toMutableSet()
+        newCustomPokemon?.add(pokemon.id.toString())
+        with (sharedPref.edit()) {
+            putStringSet("customPokemon", newCustomPokemon)
+            apply()
+            commit()
+        }
     }
 
 }

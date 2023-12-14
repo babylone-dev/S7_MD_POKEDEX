@@ -24,7 +24,7 @@ class FragmentPokedex : Fragment(R.layout.fragment_pokedex) {
         recyclerView.setHasFixedSize(true)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val pokeapi = Pokeapi()
+            val pokeapi = Pokeapi(view.context)
             val pokemonList = pokeapi.getPokedex()
             withContext(Dispatchers.Main) {
                 pokemonAdapter = PokemonAdapter(pokemonList, true)
