@@ -48,11 +48,12 @@
             android:layout_alignBottom="@id/imagePokemon"/>
 
     <!-- Star Button for Favorite -->
-    <Button
+    <ToggleButton
             android:id="@+id/btnFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="☆"
+            android:textOn="Supprimer"
+            android:textOff="Ajouter"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"/>
 </RelativeLayout>

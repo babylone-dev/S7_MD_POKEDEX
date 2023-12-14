@@ -27,7 +27,7 @@ class FragmentPokedex : Fragment(R.layout.fragment_pokedex) {
             val pokeapi = Pokeapi()
             val pokemonList = pokeapi.getPokedex()
             withContext(Dispatchers.Main) {
-                pokemonAdapter = PokemonAdapter(pokemonList)
+                pokemonAdapter = PokemonAdapter(pokemonList, true)
                 recyclerView.adapter = pokemonAdapter
             }
         }

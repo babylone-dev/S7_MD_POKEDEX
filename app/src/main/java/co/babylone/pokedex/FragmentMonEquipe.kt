@@ -27,11 +27,11 @@ class FragmentMonEquipe : Fragment(R.layout.fragment_mon_equipe) {
 
         CoroutineScope(Dispatchers.IO).launch {
             val pokeapi = Pokeapi()
-            val favoritePokemonList = pokeapi.getFavoritePokemon(requireContext())
-
+            pokeapi.getPokedex()
+            val pokemonList = pokeapi.getFavoritePokemon(view.context)
 
             withContext(Dispatchers.Main) {
-                pokemonAdapter = PokemonAdapter(favoritePokemonList)
+                pokemonAdapter = PokemonAdapter(pokemonList, false)
                 recyclerView.adapter = pokemonAdapter
             }
         }

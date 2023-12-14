@@ -16,7 +16,7 @@ class Pokeapi () {
         const val BASE_URL = "https://pokeapi.co/api/v2/"
     }
 
-    suspend fun getPokedex(): List<Pokemon> = withContext(Dispatchers.IO) {
+    suspend fun getPokedex(): MutableList<Pokemon> = withContext(Dispatchers.IO) {
         val url = "${BASE_URL}pokemon?limit=151"
         val request = Request.Builder().url(url).build()
 
@@ -73,7 +73,7 @@ class Pokeapi () {
         }
     }
 
-    fun getFavoritePokemon(context: Context): List<Pokemon> {
+    fun getFavoritePokemon(context: Context): MutableList<Pokemon> {
         val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val favoritePokemon = sharedPref.getStringSet("favoritePokemon", setOf())
         val favoritePokemonList = ArrayList<Pokemon>()
@@ -84,6 +84,18 @@ class Pokeapi () {
         }
         return favoritePokemonList
     }
+
+    fun getFavoritePokemonIds(context: Context): List<Int> {
+        val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
+        val favoritePokemon = sharedPref.getStringSet("favoritePokemon", setOf())
+        val favoritePokemonList = ArrayList<Int>()
+        for (element in favoritePokemon!!) {
+            favoritePokemonList.add(element.toInt())
+        }
+
+        return favoritePokemonList
+    }
+
     fun addCustomPokemon(pokemon: Pokemon) {
         pokemon.id = pokemons.size + 1
         pokemons.add(pokemon)
@@ -91,7 +103,7 @@ class Pokeapi () {
 
 }
 
-class Pokemon(val name: String, var id: Int?, val image: String?, val shiny: String?, var isShiny: Boolean = false) {
+class Pokemon(val name: String, var id: Int?, val image: String?, val shiny: String?, var isShiny: Boolean = false, var isFavorite: Boolean = false) {
     fun addToFavorite(context: Context) {
         val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val favoritePokemon = sharedPref.getStringSet("favoritePokemon", setOf())
@@ -100,6 +112,7 @@ class Pokemon(val name: String, var id: Int?, val image: String?, val shiny: Str
         with (sharedPref.edit()) {
             putStringSet("favoritePokemon", newFavoritePokemon)
             apply()
+            commit()
         }
     }
 
@@ -111,6 +124,7 @@ class Pokemon(val name: String, var id: Int?, val image: String?, val shiny: Str
         with (sharedPref.edit()) {
             putStringSet("favoritePokemon", newFavoritePokemon)
             apply()
+            commit()
         }
     }
 
@@ -120,6 +134,10 @@ class Pokemon(val name: String, var id: Int?, val image: String?, val shiny: Str
 
     fun toggleShiny(){
         isShiny = !isShiny
+    }
+
+    fun toggleFavorite(){
+        isFavorite = !isFavorite
     }
 
 }
