@@ -1,5 +1,7 @@
 package co.babylone.pokedex
 
+import Pokeapi
+import Pokemon
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -20,18 +22,9 @@ class FragmentPersonnalise : Fragment(R.layout.fragment_personnalise){
         val url = view?.findViewById<EditText>(R.id.editTextURL)?.text.toString()
 
 
-        val fragmentMonEquipe = FragmentMonEquipe()
-
-
-        val bundle = Bundle()
-        bundle.putString("NAME_KEY", name)
-        bundle.putString("URL_KEY", url)
-        fragmentMonEquipe.arguments = bundle
-
-
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.flFragment, fragmentMonEquipe)
-            ?.addToBackStack(null)
-            ?.commit()
+        val fragmentMonPokedex = FragmentPokedex()
+        val customPokemon = Pokemon(name, null,url, null)
+        val pokeApi = Pokeapi()
+        pokeApi.addCustomPokemon(customPokemon)
     }
 }
