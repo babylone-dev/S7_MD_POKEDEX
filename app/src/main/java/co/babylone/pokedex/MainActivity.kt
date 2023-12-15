@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPref = this.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val loginButton = findViewById<Button>(R.id.login_button)
         val username = findViewById<EditText>(R.id.username)
+        val usernameText = username.text.toString()
         username.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE ||
                 (event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER)
@@ -28,15 +29,20 @@ class MainActivity : AppCompatActivity() {
             false
         }
         loginButton.setOnClickListener {
-            if (username.text.toString().isNotEmpty()) {
+            if (isValid(usernameText)) {
                 with (sharedPref.edit()) {
-                    putString("username", username.text.toString())
+                    putString("username", usernameText)
                     apply()
                 }
                 startActivity(Intent(this, HomeActivity::class.java))
             } else {
                 Snackbar.make(findViewById(R.id.username), "Veuillez entrer un pseudonyme", Snackbar.LENGTH_SHORT).show()
             }
+        }
+    }
+    companion object {
+        fun isValid(username: String): Boolean {
+            return username.isNotEmpty()
         }
     }
 }
