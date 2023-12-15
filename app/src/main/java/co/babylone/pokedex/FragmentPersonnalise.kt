@@ -26,6 +26,7 @@ class FragmentPersonnalise : Fragment(R.layout.fragment_personnalise){
     private fun sendDataToFragmentMonEquipe(context : Context) {
         val name = view?.findViewById<EditText>(R.id.editTextNom)?.text.toString()
         var url = view?.findViewById<EditText>(R.id.editTextURL)?.text.toString()
+        val defaultPokemon = Pokemon("Ditto", 132, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/132.png")
 
         if (name.isEmpty() ){
             Snackbar.make(requireView(), "Veuillez entrer un nom", Snackbar.LENGTH_SHORT).show()
@@ -33,11 +34,11 @@ class FragmentPersonnalise : Fragment(R.layout.fragment_personnalise){
         }
 
         if (url.isEmpty() ){
-            url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1000.png"
+            url = defaultPokemon.image!!
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            val customPokemon = Pokemon(name, null, url, null)
+            val customPokemon = Pokemon(name, null, url, defaultPokemon.shiny)
             val pokeApi = Pokeapi(context)
             pokeApi.getPokedex()
             pokeApi.addCustomPokemon(customPokemon)
