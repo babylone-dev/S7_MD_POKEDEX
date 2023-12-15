@@ -1,4 +1,5 @@
 import android.content.Context
+import android.net.ConnectivityManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.*
@@ -17,6 +18,13 @@ class Pokeapi (val context: Context) {
     }
 
     suspend fun getPokedex(): MutableList<Pokemon> = withContext(Dispatchers.IO) {
+        if(!isInternetAvailable(context)) {
+            pokemons = getCustomPokemon("pokemons") as ArrayList<Pokemon>
+            val customPokemon = getCustomPokemon()
+            pokemons.addAll(customPokemon)
+            return@withContext pokemons
+        }
+
         val url = "${BASE_URL}pokemon?limit=151"
         val request = Request.Builder().url(url).build()
 
@@ -48,7 +56,14 @@ class Pokeapi (val context: Context) {
         }
         val customPokemon = getCustomPokemon()
         pokemons.addAll(customPokemon)
+        saveInCache()
         pokemons // Return the list of Pokemon
+    }
+
+    private fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 
     fun saveInCache() {
@@ -56,22 +71,6 @@ class Pokeapi (val context: Context) {
         val editor = sharedPref.edit()
         editor.putString("pokemons", pokemons.toString())
         editor.apply()
-    }
-
-    fun getFromCache() {
-        val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
-        val pokemonsString = sharedPref.getString("pokemons", "")
-
-        if (!pokemonsString.isNullOrEmpty()) {
-            val pattern = Regex("Pokemon\\(name=(\\w+), id=(\\d+), image=(.*?), shiny=(.*?)\\)")
-            val matches = pattern.findAll(pokemonsString)
-
-            val parsedPokemons = matches.map { matchResult ->
-                val (name, id, image, shiny) = matchResult.destructured
-                Pokemon(name, id.toInt(), image, shiny)
-            }.toList()
-            pokemons = ArrayList(parsedPokemons)
-        }
     }
 
     fun getFavoritePokemon(): MutableList<Pokemon> {
@@ -97,9 +96,9 @@ class Pokeapi (val context: Context) {
         return favoritePokemonList
     }
 
-    private fun getCustomPokemon(): MutableList<Pokemon> {
+    private fun getCustomPokemon(entry : String = "customPokemon"): MutableList<Pokemon> {
         val sharedPref = context.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
-        val pokemonsString = sharedPref.getString("customPokemon", "")
+        val pokemonsString = sharedPref.getString(entry, "")
 
         val pokemons = mutableListOf<Pokemon>()
 

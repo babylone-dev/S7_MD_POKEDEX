@@ -20,9 +20,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_screen)
-        CoroutineScope(Dispatchers.Main).launch {
-            main(context = this@MainActivity)
-        }
         val sharedPref = this.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val loginButton = findViewById<Button>(R.id.login_button)
         loginButton.setOnClickListener {
@@ -40,30 +37,5 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    }
-}
-suspend fun main(context: Context) {
-    val pokeapi = Pokeapi(context)
-    val pokemonList = pokeapi.getPokedex()
-    pokeapi.saveInCache()
-
-    for (pokemon in pokemonList) {
-        println("Name: ${pokemon.name}, ID: ${pokemon.id}, Image: ${pokemon.image} Shiny: ${pokemon.shiny}")
-    }
-
-    pokemonList[0].addToFavorite(context)
-    pokemonList[3].addToFavorite(context)
-    pokemonList[6].addToFavorite(context)
-
-    val favoritePokemon = pokeapi.getFavoritePokemon()
-    println("Favorite Pokemon:")
-    for (pokemon in favoritePokemon) {
-        println("Name: ${pokemon.name}, ID: ${pokemon.id}, Image: ${pokemon.image} Shiny: ${pokemon.shiny}")
-    }
-
-    println("Pokemon from cache:")
-    pokeapi.getFromCache()
-    for (pokemon in pokeapi.pokemons) {
-        println("Name: ${pokemon.name}, ID: ${pokemon.id}, Image: ${pokemon.image} Shiny: ${pokemon.shiny}")
     }
 }
