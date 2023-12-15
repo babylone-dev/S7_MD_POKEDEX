@@ -1,32 +1,36 @@
 package co.babylone.pokedex
 
-import Pokeapi
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.inputmethod.InputBinding
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_screen)
         val sharedPref = this.getSharedPreferences("co.babylone.pokedex", Context.MODE_PRIVATE)
         val loginButton = findViewById<Button>(R.id.login_button)
+        val username = findViewById<EditText>(R.id.username)
+        username.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE ||
+                (event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER)
+            ) {
+                loginButton.performClick()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
         loginButton.setOnClickListener {
-            val username = findViewById<EditText>(R.id.username).text.toString()
-            if (username.isNotEmpty()) {
+            if (username.text.toString().isNotEmpty()) {
                 with (sharedPref.edit()) {
-                    putString("username", username)
+                    putString("username", username.text.toString())
                     apply()
                 }
                 startActivity(Intent(this, HomeActivity::class.java))
@@ -34,8 +38,5 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(findViewById(R.id.username), "Veuillez entrer un pseudonyme", Snackbar.LENGTH_SHORT).show()
             }
         }
-
-
-
     }
 }
