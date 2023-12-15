@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,10 +25,18 @@ class FragmentPersonnalise : Fragment(R.layout.fragment_personnalise){
 
     private fun sendDataToFragmentMonEquipe(context : Context) {
         val name = view?.findViewById<EditText>(R.id.editTextNom)?.text.toString()
-        val url = view?.findViewById<EditText>(R.id.editTextURL)?.text.toString()
+        var url = view?.findViewById<EditText>(R.id.editTextURL)?.text.toString()
+
+        if (name.isEmpty() ){
+            Snackbar.make(requireView(), "Veuillez entrer un nom", Snackbar.LENGTH_SHORT).show()
+            return
+        }
+
+        if (url.isEmpty() ){
+            url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1000.png"
+        }
 
         CoroutineScope(Dispatchers.IO).launch {
-            val fragmentMonPokedex = FragmentPokedex()
             val customPokemon = Pokemon(name, null, url, null)
             val pokeApi = Pokeapi(context)
             pokeApi.getPokedex()
