@@ -27,7 +27,6 @@ class FragmentPersonnalise : Fragment(R.layout.fragment_personnalise){
         val url = view?.findViewById<EditText>(R.id.editTextURL)?.text.toString()
 
         CoroutineScope(Dispatchers.IO).launch {
-            val fragmentMonPokedex = FragmentPokedex()
             val customPokemon = Pokemon(name, null, url, null)
             val pokeApi = Pokeapi(context)
             pokeApi.getPokedex()

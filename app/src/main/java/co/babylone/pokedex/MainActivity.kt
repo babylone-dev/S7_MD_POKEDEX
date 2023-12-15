@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_screen)
@@ -27,21 +28,29 @@ class MainActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.login_button)
         loginButton.setOnClickListener {
             val username = findViewById<EditText>(R.id.username).text.toString()
-            if (username.isNotEmpty()) {
-                with (sharedPref.edit()) {
-                    putString("username", username)
-                    apply()
-                }
-                startActivity(Intent(this, HomeActivity::class.java))
-            } else {
-                Snackbar.make(findViewById(R.id.username), "Veuillez entrer un pseudonyme", Snackbar.LENGTH_SHORT).show()
-            }
+           if(isValid(username))
+           {
+               with (sharedPref.edit()) {
+                   putString("username", username)
+                   apply()
+               }
+               startActivity(Intent(this, HomeActivity::class.java))
+
+           }
+           else {
+               Snackbar.make(findViewById(R.id.username), "Veuillez entrer un pseudonyme", Snackbar.LENGTH_SHORT).show()
+           }
+
         }
-
-
-
     }
+    companion object {
+        fun isValid(username: String): Boolean {
+            return username.isNotEmpty()
+        }
+    }
+
 }
+
 suspend fun main(context: Context) {
     val pokeapi = Pokeapi(context)
     val pokemonList = pokeapi.getPokedex()
