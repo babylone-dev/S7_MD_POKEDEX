@@ -29,9 +29,6 @@ class FragmentMonEquipe : Fragment(R.layout.fragment_mon_equipe) {
         recyclerView = view.findViewById(R.id.recyclerViewMonEquipe)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
-        val name = arguments?.getString("NAME_KEY")
-        val url = arguments?.getString("URL_KEY")
-
 
         CoroutineScope(Dispatchers.IO).launch {
             val pokeapi = Pokeapi(view.context)
