@@ -19,3 +19,5 @@ Next we have second page, your pokemon team. When you click on the team, it disp
 The third and the last page is the "personnalized". You can add here the pokemon you want to your pokedex within enter the name and the url image of the pokemon. Here we add the pokemon called Chikorita in the pokedex. 
 
 ![Alt text](PersonnaliepageApp.png) ![Alt text](NewpokemonAdd.png)
+
+Furthermore, we can use our application without wifi-connection. If you already launch the application once time with the wifi, it will stocked all the data in the cache. When you relaunched the application without internet, it will launched all the data from the cache file. 
