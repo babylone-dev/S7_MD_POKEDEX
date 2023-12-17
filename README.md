@@ -39,6 +39,7 @@ You can add here the pokemon you want to your pokedex by entering the name and t
 
 Here we added the pokemon called Chikorita in the pokedex.
 
+<img src="images/PersonnaliepageApp.png" width="300">
 ![Alt text](images/PersonnaliepageApp.png) ![Alt text](images/NewpokemonAdd.png)
 
 ### Works without internet
