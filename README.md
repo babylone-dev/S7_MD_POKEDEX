@@ -17,11 +17,11 @@ For this project, we developed an application in Android with Kotlin. It's a Pok
 
 First, we have a login page where you have to put your username.
 
-![Alt text](images/LoginpagePokemonApp.png)
+<img src="images/LoginpagePokemonApp.png" width="372">
 
 When you are logged, you are redirected to the app first page: the pokedex. You can see the name of the pokemon, its image, the toggle button "normal" (to switch the pokemon into its shiny version) and the button "add" (to add the pokemon to your team).
 
-![Alt text](images/PokedexpageApp.png)
+<img src="images/PokedexpageApp.png" width="372">
 
 ### My team
 
@@ -29,7 +29,7 @@ Next we have our second page: your pokemon team.
 
 When you click on the team, it displays the pokemon that you choose to add from your pokedex. Here for the example we added Venusar and Charizard.
 
-![Alt text](images/Pokedexpokemonadd.png) ![Alt text](images/EquipepageApp.png)
+<img src="images/Pokedexpokemonadd.png" width="372"> <img src="images/EquipepageApp.png" width="372">
 
 ### Custom pokemons
 
@@ -39,7 +39,7 @@ You can add here the pokemon you want to your pokedex by entering the name and t
 
 Here we added the pokemon called Chikorita in the pokedex.
 
-![Alt text](images/PersonnaliepageApp.png) ![Alt text](images/NewpokemonAdd.png)
+<img src="images/PersonnaliepageApp.png" width="372"> <img src="images/NewpokemonAdd.png" width="372">
 
 ### Works without internet
 
@@ -48,7 +48,12 @@ Furthermore, we can use our application without any internet connection. Indeed,
 When you relaunch the application without internet, it will used all the data from the cache file.
 
 As you can see on the images when I added a pokemon without internet, it doesn't display the image of the Pokemon in the Pokedex for example, since we don't have any internet, but the pokedex is still visible.
-![Alt text](images/AddpokemonwithoutinternetApp.png) ![Alt text](images/PokedexwithoutinternetApp.png)
+
+<img src="images/AddpokemonwithoutinternetApp.png" width="372"> <img src="images/PokedexwithoutinternetApp.png" width="372">
+
+When the phone is reconnected to the Internet, if you reload images by changing pages or switching to shiny image, it loads all images that have not yet been loaded.
+
+<img src="images/PokedexwithinternetApp.png" width="372">
 
 
 ## Running Tests
