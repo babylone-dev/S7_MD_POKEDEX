@@ -51,7 +51,7 @@ As you can see on the images when I added a pokemon without internet, it doesn't
 
 <img src="images/AddpokemonwithoutinternetApp.png" width="372"> <img src="images/PokedexwithoutinternetApp.png" width="372">
 
-When the phone is reconnected to the Internet, if you reload images by changing page or changing to shiny image, it load all the images that were not aloready loaded.
+When the phone is reconnected to the Internet, if you reload images by changing pages or switching to shiny image, it loads all images that have not yet been loaded.
 
 <img src="images/PokedexwithinternetApp.png" width="372">
 
