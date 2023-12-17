@@ -26,7 +26,6 @@ class PokeApiTest {
         }
     }
 
-
     @Test
     fun idPokemon_isUncorrect() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -72,5 +71,4 @@ class PokeApiTest {
             }
         }
     }
-
 }

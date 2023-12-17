@@ -12,10 +12,7 @@ class PokeApiUnitTest {
     @Test
     fun testValidUsernameFormat() {
         val validUsername = "Coco"
-
-
         assertTrue(isValid(validUsername))
-
     }
     @Test
     fun testInvalidUsernameFormat(){
@@ -39,6 +36,4 @@ class PokeApiUnitTest {
         pikachu.toggleFavorite()
         assertFalse(pikachu.isFavorite)
     }
-
-
 }
