@@ -48,7 +48,7 @@ Furthermore, we can use our application without any internet connection. Indeed,
 When you relaunch the application without internet, it will used all the data from the cache file.
 
 As you can see on the images when I added a pokemon without internet, it doesn't display the image of the Pokemon in the Pokedex for example, since we don't have any internet, but the pokedex is still visible.
-![Alt text](images/AddpokemonwithoutinternetApp.png| width=100) ![Alt text](images/PokedexwithoutinternetApp.png | width=100)
+![Alt text](images/AddpokemonwithoutinternetApp.png=250x) ![Alt text](images/PokedexwithoutinternetApp.png=250x)
 
 
 ## Running Tests
